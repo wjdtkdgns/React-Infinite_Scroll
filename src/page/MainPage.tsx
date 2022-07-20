@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
-import "./styles.css";
 
 const MainPage = () => {
   const [selection, setSelection] = useState<boolean>(false);
@@ -58,7 +57,18 @@ const MainPage = () => {
     clickable: true,
     dynamicBullets: true,
     renderBullet: function (index: any, className: any) {
-      return '<span class="' + className + '">' + "</span>";
+      return '<span class="' + className + '"></span>';
+    },
+  };
+
+  const swiperParams = {
+    spaceBetween: 0,
+    centeredSlides: true,
+    modules: [Pagination, Autoplay],
+    pagination: pagination,
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
     },
   };
 
@@ -115,17 +125,7 @@ const MainPage = () => {
         horizontal scroll with 3rd party library
       </p>
       <Frame>
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          className="mySwiper"
-          modules={[Pagination, Autoplay]}
-          pagination={pagination}
-          autoplay={{
-            delay: 2000,
-            disableOnInteraction: false,
-          }}
-        >
+        <Swiper {...swiperParams}>
           <SwiperSlide>
             <Content>
               <p>Slide 1</p>
@@ -195,41 +195,56 @@ const Frame = styled.div`
   height: 300px;
   box-sizing: border-box;
   margin: 0 auto;
+
+  .swiper {
+    width: 80%;
+    height: 300px;
+    background-color: #fff;
+    /* background-color: rgb(129, 129, 129); */
+    border-radius: 20px;
+  }
+
+  .swiper-slide {
+    /* Center slide text vertically */
+    /* flex 호환성 해결 */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .swiper-pagination-bullet-active {
+    background: rgb(129, 129, 129);
+  }
 `;
 
 const Content = styled.div`
-  width: 80%;
+  width: 100%;
   height: 100%;
-  border-radius: 20px;
   margin: 0;
   background-color: #3b3b3b;
   align-items: center;
   justify-content: center;
+  text-align: center;
 
   & p {
     font-size: 30px;
   }
-`;
-
-const SwiperOuter = styled(Swiper)`
-  width: 100%;
-  height: 500px;
-`;
-
-const SwiperEl = styled(SwiperSlide)`
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-
-  /* Center slide text vertically */
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
 `;
